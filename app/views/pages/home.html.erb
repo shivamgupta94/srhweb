@@ -1,19 +1,232 @@
-<%= render "pages/sidebar" %>
+
 
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB62qZpLPkJOx3s-1qQqq4iUrH1p6Gx5Ow">
 </script>
 
 <script type="text/javascript">
+var map;
+var Busroute;
 
-	function initialize()
+
+
+function initialize()
 	{
-		var map;
+		
 		var mapOptions = {center: { lat: 40.442808, lng: -79.943013 },zoom: 16};
 		map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+	/*google.maps.event.addDomListener(window, 'load', initialize);
+ 	$(document).on('pageshow', '#map-container', initialize());*/
+
+			var BusCoordinates = 
+			[
+			    new google.maps.LatLng(40.441836, -79.946941),
+				new google.maps.LatLng(40.442309, -79.947091),
+				new google.maps.LatLng(40.442848, -79.946748),
+				new google.maps.LatLng(40.444465, -79.946533),
+				new google.maps.LatLng(40.444661, -79.942971),
+				new google.maps.LatLng(40.443991, -79.939173),
+				new google.maps.LatLng(40.443240, -79.938015),
+				new google.maps.LatLng(40.442685, -79.937800),
+				new google.maps.LatLng(40.441917, -79.939560),
+				new google.maps.LatLng(40.441738, -79.941319),
+				new google.maps.LatLng(40.440823, -79.942006),
+				new google.maps.LatLng(40.440464, -79.942092),
+				new google.maps.LatLng(40.441542, -79.946984),
+				new google.maps.LatLng(40.441836, -79.946941)
+			];
+			
+
+			Busroute = new google.maps.Polyline
+			({
+			    path: BusCoordinates,
+			    geodesic: true,
+			    strokeColor: '#0000FF',
+			    strokeOpacity: 1.0,
+			    strokeWeight: 3
+			});		
+			
 	}
-	google.maps.event.addDomListener(window, 'load', initialize);
- 	$(document).on('pageshow', '#map-container', initialize()); 
+
+			
+
+function boundary_on_click(path,obj) {
+  if($(obj).is(":checked")){
+    //alert("Yes checked");
+    path.setMap(map);
+	}
+	else{
+    //alert("Not checked");
+    path.setMap(null);
+	 //when not checked
+  }
+}
+
+var assault_marker = new google.maps.Marker({
+    			position: new google.maps.LatLng(40.446163, -79.944699),
+    			map: map,
+			    title: 'Assault',		    
+			  	});
+
+var burglary_marker = new google.maps.Marker({
+    position: new google.maps.LatLng(40.446882, -79.942982),
+    map: map,
+    icon: 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png',
+    title: 'Burglary'
+  });
+
+ var ct_marker = new google.maps.Marker({
+    position: new google.maps.LatLng(40.446914, -79.940922),
+    map: map,
+    icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+    title:'Criminal_Tresspass'
+  });
+
+ var ie_marker = new google.maps.Marker({
+    position: new google.maps.LatLng(40.446914, -79.948990),
+    map: map,
+    title: 'Indecent_Exposure'
+  });
+
+ var r_marker = new google.maps.Marker({
+    position: new google.maps.LatLng(40.446555, -79.951780),
+    map: map,
+    title: 'Roberry'
+  });
+
+ var sa_marker = new google.maps.Marker({
+    position: new google.maps.LatLng(40.447862, -79.936845),
+    map: map,
+    title: 'Sexual_Assault'
+  });
+
+ var t_marker = new google.maps.Marker({
+    position: new google.maps.LatLng(40.443910, -79.938862),
+    map: map,
+    title: 'Theft'
+  });
+
+ var o_marker = new google.maps.Marker({
+    position: new google.maps.LatLng(40.442832, -79.943047),
+    map: map,
+    title: 'Other'
+  });
+
+
+
+function Assault(obj) {
+  if($(obj).is(":checked")){
+    //alert(assault_marker.getVisible());
+    assault_marker.setMap(map);
+  	assault_marker.setVisible(true);
+	}
+	else{
+    //alert(assault_marker.getVisible());
+	 //when not checked
+
+	 assault_marker.setVisible(false);
+	 assault_marker.setMap(null);
+  }
+}
+
+function Burglary(obj) {
+  if($(obj).is(":checked")){
+    //alert("Yes checked");
+    burglary_marker.setMap(map);
+  	burglary_marker.setVisible(true);
+	}
+	else{
+    //alert("Not checked");
+     burglary_marker.setVisible(false);
+	  burglary_marker.setMap(null);
+	 //when not checked
+  }
+}
+
+function Criminal_Tresspass(obj) {
+  if($(obj).is(":checked")){
+    //alert("Yes checked");
+   ct_marker.setMap(map);
+  	ct_marker.setVisible(true);
+	}
+	else{
+    //alert("Not checked");
+    ct_marker.setVisible(false);
+	  ct_marker.setMap(null);
+	 //when not checked
+  }
+}
+
+function Indecent_Exposure(obj) {
+  if($(obj).is(":checked")){
+    //alert("Yes checked");
+    
+	}
+	else{
+    //alert("Not checked");
+   
+	 //when not checked
+  }
+}
+
+function Roberry(obj) {
+  if($(obj).is(":checked")){
+    //alert("Yes checked");
+    
+	}
+	else{
+    //alert("Not checked");
+    
+	 //when not checked
+  }
+}
+
+function Sexual_Assault(obj) {
+  if($(obj).is(":checked")){
+    //alert("Yes checked");
+    
+	}
+	else{
+    //alert("Not checked");
+    
+	 //when not checked
+  }
+}
+
+function Theft(obj) {
+  if($(obj).is(":checked")){
+    //alert("Yes checked");
+    
+	}
+	else{
+    //alert("Not checked");
+    
+	 //when not checked
+  }
+}
+
+function Other(obj) {
+  if($(obj).is(":checked")){
+    //alert("Yes checked");
+    	}
+	else{
+    //alert("Not checked");
+  
+	 //when not checked
+  }
+}
 
 </script>
 
+<%= render "pages/sidebar" %>
 <div id="map-canvas"></div>
+
+
+<script type="text/javascript">
+    google.maps.event.addDomListener(window, 'load', initialize);
+ 	$(document).on('pageshow', '#map-container', initialize());
+// Define the LatLng coordinates for the outer path.
+</script>
+
+
+
