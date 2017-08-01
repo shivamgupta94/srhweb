@@ -11,20 +11,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 20170726123956) do
 
-  create_table "Crime", id: false, force: true do |t|
-    t.text "Crime_ID",          null: false
-    t.text "Date",              null: false
-    t.text "Time",              null: false
-    t.text "Location",          null: false
-    t.text "Category",          null: false
-    t.text "Alert_Type",        null: false
-    t.text "Brief_Description", null: false
-    t.text "Safety_Tips",       null: false
-  end
-
-  create_table "CrimeRedo", primary_key: "Event_ID", force: true do |t|
+  create_table "CrimeRedos", primary_key: "Event_ID", force: true do |t|
     t.text "Crime_ID",          null: false
     t.text "Date",              null: false
     t.text "Time",              null: false
@@ -36,7 +25,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.text "Operation",         null: false
   end
 
-  create_table "CrimeUndo", primary_key: "Event_ID", force: true do |t|
+  create_table "CrimeUndos", primary_key: "Event_ID", force: true do |t|
     t.text "Crime_ID",          null: false
     t.text "Date",              null: false
     t.text "Time",              null: false
@@ -46,6 +35,17 @@ ActiveRecord::Schema.define(version: 0) do
     t.text "Brief_Description", null: false
     t.text "Safety_Tips",       null: false
     t.text "Operation",         null: false
+  end
+
+  create_table "Crimes", id: false, force: true do |t|
+    t.text "Crime_ID",          null: false
+    t.text "Date",              null: false
+    t.text "Time",              null: false
+    t.text "Location",          null: false
+    t.text "Category",          null: false
+    t.text "Alert_Type",        null: false
+    t.text "Brief_Description", null: false
+    t.text "Safety_Tips",       null: false
   end
 
 end

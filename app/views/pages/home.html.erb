@@ -7,11 +7,8 @@
 var map;
 var Busroute;
 
-
-
 function initialize()
-	{
-		
+	{		
 		var mapOptions = {center: { lat: 40.442808, lng: -79.943013 },zoom: 16};
 		map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
@@ -62,47 +59,161 @@ function boundary_on_click(path,obj) {
   }
 }
 
-var assault_marker = new google.maps.Marker({
-    			position: new google.maps.LatLng(40.446163, -79.944699),
+var ars = [];
+var burg = [];
+var ct = [];
+var ie = [];
+var rob = [];
+var sa = [];
+var the = [];
+var mis = [];
+
+<% def convert_to_google_markers(att,ary) %>
+  <% att.each do |atr|%>
+   //alert(codeAddress('<%=atr.Location%>'));
+  var mar = new google.maps.Marker({ 
+    position: new google.maps.LatLng(codeAddress('<%=atr.Location%>')),
+    map: map,
+    title:'<%= atr.Category %>'
+  });
+  <%=ary%>.push(mar);
+  <% end %>
+<% end %>
+
+function codeAddress(addr) {
+    //var address = document.getElementById('address').value;
+    var str;
+    var str2;
+  $.getJSON('https://maps.googleapis.com/maps/api/geocode/json?address=' + addr + 'Pittsburgh, + PA&key=AIzaSyB62qZpLPkJOx3s-1qQqq4iUrH1p6Gx5Ow&callback', function(json) {
+    //data is the JSON string
+    //alert(json.results[0].geometry.location.lat, json.results[0].geometry.location.lng, json.status);
+    //return json.results[0].geometry.location; 
+    str = json.results[0].geometry.location.lat;
+    str2 = json.results[0].geometry.location.lng;
+    //alert(str.lat);
+    //alert(str.lng);
+    });
+    
+  }
+
+
+<% ars_markers = [] %>
+<% burg_markers = [] %>
+<% ct_markers = [] %>
+<% ie_markers = [] %>
+<% rob_markers = [] %>
+<% sa_markers = [] %>
+<% the_markers = [] %>
+<% mis_markers = [] %>
+
+<% @hello.each_with_index do |cr,index|%>
+    <% case cr.Category %>
+      <% when "Arson"%>
+        <% ars_markers << cr %>
+        <% ars = convert_to_google_markers(ars_markers,'ars') %>    
+      <% when "Burglary" %>
+        <% burg_markers << cr %>
+        <% convert_to_google_markers(burg_markers,'burg',) %>
+      <% when "Criminal Trespass" %>
+        <% ct_markers << cr %>
+        <% convert_to_google_markers(ct_markers,'ct') %>
+      <% when "Indecent Exposure" %>
+        <% ie_markers << cr %>
+        <% convert_to_google_markers(ie_markers,'ie') %>
+      <% when "Robbery" %>
+        <% rob_markers << cr %>
+        <% convert_to_google_markers(rob_markers,'rob') %>
+      <% when "Sexual Assault" %>
+        <% sa_markers << cr %>
+        <% convert_to_google_markers(sa_markers,'sa') %>
+      <% when "Theft" %>
+        <% the_markers << cr %>
+        <% convert_to_google_markers(the_markers,'the') %>
+      <% when "Miscellaneous" %>
+        <% mis_markers << cr %>
+        <% convert_to_google_markers(mis_markers,'mis') %>
+    <% end %>
+    <% logger.debug(index) %>
+<% end %>
+
+
+
+//all crimes
+//crime.category = 'x'
+//create marker with all attributes 
+// add marker to array x
+
+var ars_marker = new google.maps.Marker({
+    			position: new google.maps.LatLng(40.441323, -79.939076),
     			map: map,
-			    title: 'Assault',		    
+			    title: 'Stay alert to your surroundings at all times.Stay close to friends and do not interact with strangers. Do not approach suspicious persons or vehicles. Report any suspicious incidents, persons or vehicles to CMU Police at 412-268-2323,or off campus to the Pittsburgh Police at 911.',		    
 			  	});
 
-var burglary_marker = new google.maps.Marker({
-    position: new google.maps.LatLng(40.446882, -79.942982),
+var burg_marker = new google.maps.Marker({
+    position: new google.maps.LatLng(40.445819, -79.948851),
     map: map,
     icon: 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png',
-    title: 'Burglary'
+    title: 'Stay alert to your surroundings at all times.Stay close to friends and do not interact with strangers. Do not approach suspicious persons or vehicles. Report any suspicious incidents, persons or vehicles to CMU Police at 412-268-2323,or off campus to the Pittsburgh Police at 911.'
   });
 
  var ct_marker = new google.maps.Marker({
     position: new google.maps.LatLng(40.446914, -79.940922),
     map: map,
     icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
-    title:'Criminal_Tresspass'
+    title:'Stay alert to your surroundings at all times.Stay close to friends and do not interact with strangers. Do not approach suspicious persons or vehicles. Report any suspicious incidents, persons or vehicles to CMU Police at 412-268-2323,or off campus to the Pittsburgh Police at 911.' 
   });
 
+
  var ie_marker = new google.maps.Marker({
-    position: new google.maps.LatLng(40.446914, -79.948990),
+    position: new google.maps.LatLng(40.447440, -79.942454),
     map: map,
-    title: 'Indecent_Exposure'
+    icon : 'http://maps.google.com/mapfiles/marker_black.png',
+    title: 'Stay alert to your surroundings at all times.Stay close to friends and do not interact with strangers. Do not approach suspicious persons or vehicles. Report any suspicious incidents, persons or vehicles to CMU Police at 412-268-2323,or off campus to the Pittsburgh Police at 911.'
   });
 
  var r_marker = new google.maps.Marker({
-    position: new google.maps.LatLng(40.446555, -79.951780),
+    position: new google.maps.LatLng(40.446913, -79.942711),
     map: map,
+    icon: 'http://maps.google.com/mapfiles/marker_grey.png',
+    title: 'Roberry'
+  });
+ var r_marker1 = new google.maps.Marker({
+    position: new google.maps.LatLng(40.447813, -79.937147),
+    map: map,
+    icon: 'http://maps.google.com/mapfiles/marker_grey.png',
+    title: 'Roberry'
+  });
+var r_marker2 = new google.maps.Marker({
+    position: new google.maps.LatLng(40.432355, -79.923140),
+    map: map,
+    icon: 'http://maps.google.com/mapfiles/marker_grey.png',
+    title: 'Roberry'
+  });
+var r_marker3 = new google.maps.Marker({
+    position: new google.maps.LatLng(40.446931,-79.949017),
+    map: map,
+    icon: 'http://maps.google.com/mapfiles/marker_grey.png',
+    title: 'Roberry'
+  });
+var r_marker4 = new google.maps.Marker({
+    position: new google.maps.LatLng( 40.440371,-79.959841),
+    map: map,
+    icon: 'http://maps.google.com/mapfiles/marker_grey.png',
     title: 'Roberry'
   });
 
+
  var sa_marker = new google.maps.Marker({
-    position: new google.maps.LatLng(40.447862, -79.936845),
+    position: new google.maps.LatLng(40.447064, -79.947274),
     map: map,
+    icon: 'http://maps.google.com/mapfiles/marker_white.png',
     title: 'Sexual_Assault'
   });
 
  var t_marker = new google.maps.Marker({
-    position: new google.maps.LatLng(40.443910, -79.938862),
+    position: new google.maps.LatLng(40.444165,-79.943373),
     map: map,
+    icon: 'http://maps.google.com/mapfiles/marker_orange.png',
     title: 'Theft'
   });
 
@@ -114,31 +225,47 @@ var burglary_marker = new google.maps.Marker({
 
 
 
-function Assault(obj) {
+function Arson(obj) {
   if($(obj).is(":checked")){
     //alert(assault_marker.getVisible());
-    assault_marker.setMap(map);
-  	assault_marker.setVisible(true);
+    /*for (var i = 0; i < ars.length; i++) {
+      ars[i].setMap(map);
+      ars[i].setVisible(true);
+    }*/
+    ars_marker.setMap(map);
+      ars_marker.setVisible(true);
 	}
 	else{
     //alert(assault_marker.getVisible());
 	 //when not checked
-
-	 assault_marker.setVisible(false);
-	 assault_marker.setMap(null);
-  }
+   /*for (var i = 0; i < ars.length; i++) {
+    ars[i].setMap(null);
+    ars[i].setVisible(false);
+  }*/
+  ars_marker.setMap(null);
+    ars_marker.setVisible(false);
+   
 }
+}
+
 
 function Burglary(obj) {
   if($(obj).is(":checked")){
     //alert("Yes checked");
-    burglary_marker.setMap(map);
-  	burglary_marker.setVisible(true);
+    
+    /*for (var i = 0; i < burg.length; i++) {
+      burg[i].setMap(map);
+      burg[i].setVisible(true);
+    }*/burg_marker.setMap(map);
+    burg_marker.setVisible(true);
 	}
 	else{
     //alert("Not checked");
-     burglary_marker.setVisible(false);
-	  burglary_marker.setMap(null);
+     /*for (var i = 0; i < burg.length; i++) {
+    burg[i].setMap(null);
+    burg[i].setVisible(false);
+  }*/burg_marker.setMap(null);
+    burg_marker.setVisible(false);
 	 //when not checked
   }
 }
@@ -160,11 +287,13 @@ function Criminal_Tresspass(obj) {
 function Indecent_Exposure(obj) {
   if($(obj).is(":checked")){
     //alert("Yes checked");
-    
+    ie_marker.setMap(map);
+    ie_marker.setVisible(true);
 	}
 	else{
     //alert("Not checked");
-   
+   ie_marker.setVisible(false);
+    ie_marker.setMap(null);
 	 //when not checked
   }
 }
@@ -172,11 +301,33 @@ function Indecent_Exposure(obj) {
 function Roberry(obj) {
   if($(obj).is(":checked")){
     //alert("Yes checked");
-    
+    r_marker.setMap(map);
+    r_marker.setVisible(true);
+    r_marker1.setMap(map);
+    r_marker1.setVisible(true);
+    r_marker2.setMap(map);
+    r_marker2.setVisible(true);
+    r_marker3.setMap(map);
+    r_marker3.setVisible(true);
+    r_marker4.setMap(map);
+    r_marker4.setVisible(true);
 	}
 	else{
     //alert("Not checked");
-    
+    r_marker.setVisible(false);
+    r_marker.setMap(null);
+
+    r_marker1.setVisible(false);
+    r_marker1.setMap(null);
+
+    r_marker2.setVisible(false);
+    r_marker2.setMap(null);
+
+    r_marker3.setVisible(false);
+    r_marker3.setMap(null);
+
+    r_marker4.setVisible(false);
+    r_marker4.setMap(null);
 	 //when not checked
   }
 }
@@ -184,11 +335,13 @@ function Roberry(obj) {
 function Sexual_Assault(obj) {
   if($(obj).is(":checked")){
     //alert("Yes checked");
-    
+    sa_marker.setMap(map);
+    sa_marker.setVisible(true);
 	}
 	else{
     //alert("Not checked");
-    
+    sa_marker.setVisible(false);
+    sa_marker.setMap(null);
 	 //when not checked
   }
 }
@@ -196,11 +349,13 @@ function Sexual_Assault(obj) {
 function Theft(obj) {
   if($(obj).is(":checked")){
     //alert("Yes checked");
-    
+    t_marker.setVisible(true);
+    t_marker.setMap(map);
 	}
 	else{
     //alert("Not checked");
-    
+    t_marker.setVisible(false);
+    t_marker.setMap(null);
 	 //when not checked
   }
 }

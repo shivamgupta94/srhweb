@@ -27,8 +27,10 @@ gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.2'
 
+gem 'seed_dump', '~> 3.2', '>= 3.2.4'
+
 group :development, :test do
-	gem 'sqlite3'
+	gem 'mysql2','~> 0.3.18'
 end
 
 group :production do
