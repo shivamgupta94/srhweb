@@ -29,14 +29,9 @@ gem 'jbuilder', '~> 1.2'
 
 gem 'seed_dump', '~> 3.2', '>= 3.2.4'
 
-group :development, :test do
-	gem 'mysql2','~> 0.3.18'
-end
 
-group :production do
-	gem 'pg'
-	gem 'rails_12factor'
-end
+gem 'mysql2','~> 0.3.18'
+
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
