@@ -31,7 +31,7 @@ gem 'seed_dump', '~> 3.2', '>= 3.2.4'
 
 
 gem 'mysql2','~> 0.3.18'
-
+gem 'rails_12factor'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
