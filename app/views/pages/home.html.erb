@@ -68,34 +68,21 @@ var sa = [];
 var the = [];
 var mis = [];
 
-<% def convert_to_google_markers(att,ary) %>
+<% def convert_to_google_markers(att,ary,color) %>
   <% att.each do |atr|%>
    //alert(codeAddress('<%=atr.Location%>'));
+$.getJSON('https://maps.googleapis.com/maps/api/geocode/json?address=' + '<%=atr.Location%>' + 'Pittsburgh, + PA&key=AIzaSyB62qZpLPkJOx3s-1qQqq4iUrH1p6Gx5Ow&callback', function(json) 
+{
   var mar = new google.maps.Marker({ 
-    position: new google.maps.LatLng(codeAddress('<%=atr.Location%>')),
+    position: new google.maps.LatLng(json.results[0].geometry.location.lat,json.results[0].geometry.location.lng),
     map: map,
+    icon: 'http://maps.google.com/mapfiles/marker'+'<%=color%>'+'.png',
     title:'<%= atr.Category %>'
   });
   <%=ary%>.push(mar);
+});
   <% end %>
 <% end %>
-
-function codeAddress(addr) {
-    //var address = document.getElementById('address').value;
-    var str;
-    var str2;
-  $.getJSON('https://maps.googleapis.com/maps/api/geocode/json?address=' + addr + 'Pittsburgh, + PA&key=AIzaSyB62qZpLPkJOx3s-1qQqq4iUrH1p6Gx5Ow&callback', function(json) {
-    //data is the JSON string
-    //alert(json.results[0].geometry.location.lat, json.results[0].geometry.location.lng, json.status);
-    //return json.results[0].geometry.location; 
-    str = json.results[0].geometry.location.lat;
-    str2 = json.results[0].geometry.location.lng;
-    //alert(str.lat);
-    //alert(str.lng);
-    });
-    
-  }
-
 
 <% ars_markers = [] %>
 <% burg_markers = [] %>
@@ -110,28 +97,28 @@ function codeAddress(addr) {
     <% case cr.Category %>
       <% when "Arson"%>
         <% ars_markers << cr %>
-        <% ars = convert_to_google_markers(ars_markers,'ars') %>    
+        <% ars = convert_to_google_markers(ars_markers,'ars','') %>    
       <% when "Burglary" %>
         <% burg_markers << cr %>
-        <% convert_to_google_markers(burg_markers,'burg',) %>
+        <% convert_to_google_markers(burg_markers,'burg','_yellow') %>
       <% when "Criminal Trespass" %>
         <% ct_markers << cr %>
-        <% convert_to_google_markers(ct_markers,'ct') %>
+        <% convert_to_google_markers(ct_markers,'ct','_purple') %>
       <% when "Indecent Exposure" %>
         <% ie_markers << cr %>
-        <% convert_to_google_markers(ie_markers,'ie') %>
+        <% convert_to_google_markers(ie_markers,'ie','_black') %>
       <% when "Robbery" %>
         <% rob_markers << cr %>
-        <% convert_to_google_markers(rob_markers,'rob') %>
+        <% convert_to_google_markers(rob_markers,'rob','_grey') %>
       <% when "Sexual Assault" %>
         <% sa_markers << cr %>
-        <% convert_to_google_markers(sa_markers,'sa') %>
+        <% convert_to_google_markers(sa_markers,'sa','_white') %>
       <% when "Theft" %>
         <% the_markers << cr %>
-        <% convert_to_google_markers(the_markers,'the') %>
+        <% convert_to_google_markers(the_markers,'the','_orange') %>
       <% when "Miscellaneous" %>
         <% mis_markers << cr %>
-        <% convert_to_google_markers(mis_markers,'mis') %>
+        <% convert_to_google_markers(mis_markers,'mis','_green') %>
     <% end %>
 <% end %>
 
@@ -142,7 +129,7 @@ function codeAddress(addr) {
 //create marker with all attributes 
 // add marker to array x
 
-var ars_marker = new google.maps.Marker({
+/*var ars_marker = new google.maps.Marker({
     			position: new google.maps.LatLng(40.441323, -79.939076),
     			map: map,
 			    title: 'Stay alert to your surroundings at all times.Stay close to friends and do not interact with strangers. Do not approach suspicious persons or vehicles. Report any suspicious incidents, persons or vehicles to CMU Police at 412-268-2323,or off campus to the Pittsburgh Police at 911.',		    
@@ -221,28 +208,28 @@ var r_marker4 = new google.maps.Marker({
     map: map,
     title: 'Other'
   });
-
+*/
 
 
 function Arson(obj) {
   if($(obj).is(":checked")){
     //alert(assault_marker.getVisible());
-    /*for (var i = 0; i < ars.length; i++) {
+    for (var i = 0; i < ars.length; i++) {
       ars[i].setMap(map);
       ars[i].setVisible(true);
-    }*/
-    ars_marker.setMap(map);
-      ars_marker.setVisible(true);
+    }
+    //ars_marker.setMap(map);
+      //ars_marker.setVisible(true);
 	}
 	else{
     //alert(assault_marker.getVisible());
 	 //when not checked
-   /*for (var i = 0; i < ars.length; i++) {
+   for (var i = 0; i < ars.length; i++) {
     ars[i].setMap(null);
     ars[i].setVisible(false);
-  }*/
-  ars_marker.setMap(null);
-    ars_marker.setVisible(false);
+  }
+  //ars_marker.setMap(null);
+    //ars_marker.setVisible(false);
    
 }
 }
@@ -252,19 +239,21 @@ function Burglary(obj) {
   if($(obj).is(":checked")){
     //alert("Yes checked");
     
-    /*for (var i = 0; i < burg.length; i++) {
+    for (var i = 0; i < burg.length; i++) {
       burg[i].setMap(map);
       burg[i].setVisible(true);
-    }*/burg_marker.setMap(map);
-    burg_marker.setVisible(true);
+    }
+    //burg_marker.setMap(map);
+    //burg_marker.setVisible(true);
 	}
 	else{
     //alert("Not checked");
-     /*for (var i = 0; i < burg.length; i++) {
+     for (var i = 0; i < burg.length; i++) {
     burg[i].setMap(null);
     burg[i].setVisible(false);
-  }*/burg_marker.setMap(null);
-    burg_marker.setVisible(false);
+  }
+  //burg_marker.setMap(null);
+  //burg_marker.setVisible(false);
 	 //when not checked
   }
 }
@@ -272,13 +261,19 @@ function Burglary(obj) {
 function Criminal_Tresspass(obj) {
   if($(obj).is(":checked")){
     //alert("Yes checked");
-   ct_marker.setMap(map);
-  	ct_marker.setVisible(true);
+    for (var i = 0; i < ct.length; i++) {
+      ct[i].setMap(map);
+      ct[i].setVisible(true);
+    }
+   //ct_marker.setMap(map);
+  	//ct_marker.setVisible(true);
 	}
 	else{
     //alert("Not checked");
-    ct_marker.setVisible(false);
-	  ct_marker.setMap(null);
+    for (var i = 0; i < ct.length; i++) {
+    ct[i].setMap(null);
+    ct[i].setVisible(false);
+  }
 	 //when not checked
   }
 }
@@ -286,21 +281,33 @@ function Criminal_Tresspass(obj) {
 function Indecent_Exposure(obj) {
   if($(obj).is(":checked")){
     //alert("Yes checked");
-    ie_marker.setMap(map);
-    ie_marker.setVisible(true);
-	}
+   // ie_marker.setMap(map);
+    //ie_marker.setVisible(true);
+	for (var i = 0; i < ie.length; i++) {
+      ie[i].setMap(map);
+      ie[i].setVisible(true);
+    }
+  }
 	else{
     //alert("Not checked");
-   ie_marker.setVisible(false);
+   for (var i = 0; i < ie.length; i++) {
+    ie[i].setMap(null);
+    ie[i].setVisible(false);
+  }
+   /*ie_marker.setVisible(false);
     ie_marker.setMap(null);
-	 //when not checked
+	 *///when not checked
   }
 }
 
 function Roberry(obj) {
   if($(obj).is(":checked")){
     //alert("Yes checked");
-    r_marker.setMap(map);
+  for (var i = 0; i < rob.length; i++) {
+      rob[i].setMap(map);
+      rob[i].setVisible(true);
+    }
+  /*  r_marker.setMap(map);
     r_marker.setVisible(true);
     r_marker1.setMap(map);
     r_marker1.setVisible(true);
@@ -309,11 +316,15 @@ function Roberry(obj) {
     r_marker3.setMap(map);
     r_marker3.setVisible(true);
     r_marker4.setMap(map);
-    r_marker4.setVisible(true);
+    r_marker4.setVisible(true);*/
 	}
 	else{
     //alert("Not checked");
-    r_marker.setVisible(false);
+    for (var i = 0; i < rob.length; i++) {
+    rob[i].setMap(null);
+    rob[i].setVisible(false);
+  }
+    /*r_marker.setVisible(false);
     r_marker.setMap(null);
 
     r_marker1.setVisible(false);
@@ -326,7 +337,7 @@ function Roberry(obj) {
     r_marker3.setMap(null);
 
     r_marker4.setVisible(false);
-    r_marker4.setMap(null);
+    r_marker4.setMap(null);*/
 	 //when not checked
   }
 }
@@ -334,13 +345,21 @@ function Roberry(obj) {
 function Sexual_Assault(obj) {
   if($(obj).is(":checked")){
     //alert("Yes checked");
-    sa_marker.setMap(map);
-    sa_marker.setVisible(true);
+    for (var i = 0; i < sa.length; i++) {
+      sa[i].setMap(map);
+      sa[i].setVisible(true);
+    }
+    /*sa_marker.setMap(map);
+    sa_marker.setVisible(true);*/
 	}
 	else{
     //alert("Not checked");
-    sa_marker.setVisible(false);
-    sa_marker.setMap(null);
+    for (var i = 0; i < sa.length; i++) {
+    sa[i].setMap(null);
+    sa[i].setVisible(false);
+  }
+    /*sa_marker.setVisible(false);
+    sa_marker.setMap(null);*/
 	 //when not checked
   }
 }
@@ -348,13 +367,21 @@ function Sexual_Assault(obj) {
 function Theft(obj) {
   if($(obj).is(":checked")){
     //alert("Yes checked");
-    t_marker.setVisible(true);
-    t_marker.setMap(map);
+  for (var i = 0; i < the.length; i++) {
+      the[i].setMap(map);
+      the[i].setVisible(true);
+    }
+  //  t_marker.setVisible(true);
+  //  t_marker.setMap(map);
 	}
 	else{
     //alert("Not checked");
-    t_marker.setVisible(false);
-    t_marker.setMap(null);
+    for (var i = 0; i < the.length; i++) {
+    the[i].setMap(null);
+    the[i].setVisible(false);
+  }
+    /*t_marker.setVisible(false);
+    t_marker.setMap(null);*/
 	 //when not checked
   }
 }
@@ -362,10 +389,17 @@ function Theft(obj) {
 function Other(obj) {
   if($(obj).is(":checked")){
     //alert("Yes checked");
+    for (var i = 0; i < mis.length; i++) {
+      mis[i].setMap(map);
+      mis[i].setVisible(true);
+    }
     	}
 	else{
     //alert("Not checked");
-  
+  for (var i = 0; i < mis.length; i++) {
+    mis[i].setMap(null);
+    mis[i].setVisible(false);
+  }
 	 //when not checked
   }
 }
