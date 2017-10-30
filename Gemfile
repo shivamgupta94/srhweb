@@ -29,8 +29,16 @@ gem 'jbuilder', '~> 1.2'
 
 gem 'seed_dump', '~> 3.2', '>= 3.2.4'
 
+group :development, :test do
+	# Use sqlite3 as the database for Active Record
+gem 'sqlite3'
+end
 
-gem 'mysql2','~> 0.3.18'
+group :production do
+	gem 'pg'
+	gem 'rails_12factor'
+end
+
 gem 'rails_12factor'
 
 group :doc do
